@@ -2,13 +2,25 @@ import pygame
 from model.Food import Food
 from model.Player import Player
 from model.Snake import Snake
+from model.Wall import Wall
 
 
 class Game:
-    def __init__(self,snake: Snake, player: Player, food: Food, window_width, window_height):
+    def __init__(
+        self,
+        snake: Snake,
+        player: Player,
+        food: Food,
+        wall: Wall,
+        barriers,
+        window_width,
+        window_height,
+    ):
         self.player = player
         self.food = food
         self.snake = snake
+        self.wall = wall
+        self.barriers = barriers
         self.window_width = window_width
         self.window_height = window_height
         self.game_over = False
@@ -35,18 +47,21 @@ class Game:
             self.snake.direction = "up"
         elif direction == "down" and self.snake.direction != "up":
             self.snake.direction = "down"
-            
+
     def update(self):
         self.snake.move()
-        if self.snake.check_collision():
+        if (
+            self.snake.check_collision()
+            or self.snake.check_wall_collision(self.wall)
+            or any(self.snake.check_barrier_collision(barrier) for barrier in self.barriers)
+        ):
             self.game_over = True
         if self.snake.eat(self.food):
             self.player.updateScore()
-            self.food.relocate()
+            self.food.relocate(self.wall, self.barriers)
             self.snake.body.insert(0, (self.snake.x, self.snake.y))
         else:
             self.snake.body.pop()
-            
 
     def is_game_over(self):
         return self.game_over

@@ -34,3 +34,13 @@ class Snake:
         if self.body[0] in self.body[1:]:
             return True
         return False
+
+    def check_wall_collision(self, wall):
+        if self.body[0] in wall.segments:
+            return True
+        return False
+    
+    def check_barrier_collision(self, barrier):
+        if self.body[0] in barrier.segments:
+            return True
+        return False
