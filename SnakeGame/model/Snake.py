@@ -7,7 +7,6 @@ class Snake:
         self.velocity = velocity
         self.direction = "right"
         self.body = [(self.x, self.y), (self.x - 10, self.y), (self.x - 20, self.y)]
-        self.score = 0
 
     def move(self):
         if self.direction == "left":
@@ -28,7 +27,6 @@ class Snake:
             and self.y <= food.y + 10
             and self.y >= food.y - 10
         ):
-            self.score += 1  # Increment score
             return True
         return False
 

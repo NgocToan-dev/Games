@@ -2,6 +2,8 @@ import pygame
 import time
 import random
 from model.Food import Food
+from model.Game import Game
+from model.Player import Player
 from model.Snake import Snake
 
 # Initialize pygame
@@ -18,48 +20,25 @@ font = pygame.font.Font(None, 36)
 
 # Game logic
 snake = Snake(50, 50, 10, 10, 10)
-
+player = Player()
 # Initialize food and snake
 food = Food(
     random.randint(0, window_width - snake.width),
     random.randint(0, window_height - snake.height),
     10,
     10,
+    window_width,
+    window_height,
 )
+game = Game(snake, player, food, window_width, window_height)
 
 running = True
 game_over = False
-# Set initial direction
-direction = "right"
-while running and not game_over:
-    # Event loop
+while running and not game.is_game_over():
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            game_over = True
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT and snake.direction != "right":
-                snake.direction = "left"
-            elif event.key == pygame.K_RIGHT and snake.direction != "left":
-                snake.direction = "right"
-            elif event.key == pygame.K_UP and snake.direction != "down":
-                snake.direction = "up"
-            elif event.key == pygame.K_DOWN and snake.direction != "up":
-                snake.direction = "down"
-
-    # Update game logic
-    snake.move()
-
-    # Check if snake has collided with itself
-    if snake.check_collision():
-        game_over = True
-
-    # Check if snake has eaten food
-    if snake.eat(food):
-        food.relocate(window_width, window_height)
-        snake.body.insert(0, (snake.x, snake.y))
-    else:
-        snake.body.pop()
-
+        game.handle_event(event)
+    game.update()
+    
     # Render graphics
     window.fill((0, 0, 0))
 
@@ -70,7 +49,7 @@ while running and not game_over:
     # Draw food
     pygame.draw.rect(window, (255, 0, 0), (food.x, food.y, snake.width, snake.height))
     # Draw score
-    score_text = font.render(f"Score: {snake.score}", True, (255, 255, 255))
+    score_text = font.render(f"Score: {player.score}", True, (255, 255, 255))
     window.blit(score_text, (10, 10))  # Draw score at position (10, 10)
 
     # Update the display
@@ -80,9 +59,9 @@ while running and not game_over:
     time.sleep(0.1)
 
 # Game over
-if game_over:
+if game.is_game_over():
     game_over_text = font.render(
-        f"Game Over! Your score was: {snake.score}", True, (255, 255, 255)
+        f"Game Over! Your score was: {player.score}", True, (255, 255, 255)
     )
     window.blit(
         game_over_text,
