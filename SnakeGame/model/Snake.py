@@ -18,6 +18,29 @@ class Snake:
         elif self.direction == "down":
             self.y += self.velocity
 
+        self.grow()
+
+    def move_without_wall(self, window_width, window_height):
+        if self.direction == "left":
+            self.x -= self.velocity
+            if self.x < 0:
+                self.x = window_width - self.width
+        elif self.direction == "right":
+            self.x += self.velocity
+            if self.x > window_width - self.width:
+                self.x = 0
+        elif self.direction == "up":
+            self.y -= self.velocity
+            if self.y < 0:
+                self.y = window_height - self.height
+        elif self.direction == "down":
+            self.y += self.velocity
+            if self.y > window_height - self.height:
+                self.y = 0
+
+        self.grow()
+
+    def grow(self):
         self.body.insert(0, (self.x, self.y))
 
     def eat(self, food):
@@ -39,7 +62,7 @@ class Snake:
         if self.body[0] in wall.segments:
             return True
         return False
-    
+
     def check_barrier_collision(self, barrier):
         if self.body[0] in barrier.segments:
             return True
