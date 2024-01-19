@@ -1,8 +1,8 @@
 import time
 import pygame
 from controller.game_setting import GameSetting
-from model.game import Game
-from model.player import Player
+from model.Game import Game
+from model.Player import Player
 
 
 # Inherit from GameSetting class

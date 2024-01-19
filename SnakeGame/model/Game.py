@@ -1,9 +1,9 @@
 import random
 import pygame
-from model.barrier import Barrier
-from model.food import Food
-from model.snake import Snake
-from model.wall import Wall
+from model.Barrier import Barrier
+from model.Food import Food
+from model.Snake import Snake
+from model.Wall import Wall
 from resources.enums import enum
 
 

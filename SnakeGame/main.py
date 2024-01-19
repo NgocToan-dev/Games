@@ -3,7 +3,7 @@
 import pygame
 from controller.game_level import GameLevel
 from controller.game_session import GameSession
-from model.player import Player
+from model.Player import Player
 
 
 # Game logic
