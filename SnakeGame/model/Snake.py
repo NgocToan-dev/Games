@@ -6,6 +6,7 @@ class Snake:
         self.height = height
         self.velocity = velocity
         self.direction = "right"
+        self.vision_distance = 100
         self.body = [(self.x, self.y), (self.x - 10, self.y), (self.x - 20, self.y)]
 
     def move(self):

@@ -39,6 +39,8 @@ class GameSession(GameSetting):
 
             # Draw score
             self.render_player_score()
+            
+            self.render_vision_distant()
 
             # Update the display
             pygame.display.update()
@@ -46,6 +48,14 @@ class GameSession(GameSetting):
             # Add a delay to control the game's frame rate
             time.sleep(0.1)
 
+    def render_vision_distant(self):
+        # light up the vision distant nad draw it on the screen
+        vision_distant = pygame.Surface((self.game.snake.vision_distance, self.game.snake.vision_distance))
+        vision_distant.fill((255, 255, 255))
+        vision_distant.set_alpha(100)
+        self.window.blit(vision_distant, (self.game.snake.x, self.game.snake.y))
+        
+        
     """
     The render_objects_graphic() method is responsible for drawing the game objects on the screen.
     """
