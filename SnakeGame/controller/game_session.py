@@ -33,6 +33,8 @@ class GameSession(GameSetting):
 
             # Render graphics
             self.window.fill((0, 0, 0))
+            
+            self.render_vision_distant()
 
             # Draw barriers
             self.render_objects_graphic()
@@ -40,7 +42,7 @@ class GameSession(GameSetting):
             # Draw score
             self.render_player_score()
             
-            self.render_vision_distant()
+
 
             # Update the display
             pygame.display.update()
@@ -49,7 +51,12 @@ class GameSession(GameSetting):
             time.sleep(0.1)
 
     def render_vision_distant(self):
-        # light up the vision distant nad draw it on the screen
+        # light off the rest area except the vision distant
+        light_off_area = pygame.Surface((self.window_width, self.window_height))
+        light_off_area.fill((0, 0, 0))
+        light_off_area.set_alpha(100)
+        self.window.blit(light_off_area, (0, 0))
+        # light up the vision distant and draw it on the screen
         vision_distant = pygame.Surface((self.game.snake.vision_distance, self.game.snake.vision_distance))
         vision_distant.fill((255, 255, 255))
         vision_distant.set_alpha(100)
